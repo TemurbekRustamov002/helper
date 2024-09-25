@@ -6,6 +6,7 @@ import whois
 import ssl
 import socket
 import nmap
+import sublist3r
 from vulners import Vulners
 from bs4 import BeautifulSoup
 import requests
@@ -90,14 +91,28 @@ def get_open_ports_and_services(url):
 
 #Zaifliklarni Tekshirish Funksiyasi
 def get_vulnerabilities(url):
-    vulners = Vulners(api_key="YOUR_VULNERS_API_KEY")
-    vulnerabilities = {}
+    api_key = "UO6RDJ46TN4X4DGQAYXTWZGYTCYG0JTDL73FQ01FUHDWIRMWULYJNHJZOTUKKBW3"  # API kalitini shu yerda haqiqiy kalitga almashtiring
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {api_key}'
+    }
+    
     try:
-        # 'search' metodidan foydalanamiz
-        data = vulners.search('host:%s' % url)
-        vulnerabilities = data.get('result', {}).get('vulnerabilities', {})
-    except Exception as e:
-        vulnerabilities['error'] = str(e)
+        # Vulners API-ga so'rov yuborish
+        response = requests.get(f'https://vulners.com/api/v3/search/lucene/?query=host:{url}', headers=headers)
+        response.raise_for_status()  # Agar xato bo'lsa, HTTPError chaqiriladi
+        
+        # JSON formatida natijani olish
+        data = response.json()  # JSON formatida natija olishga harakat qilamiz
+        vulnerabilities = data.get('result', {}).get('vulnerabilities', {})  # 'result' ichidagi 'vulnerabilities'ni olishga harakat qilamiz
+    except requests.exceptions.HTTPError as http_err:
+        return {'error': f"HTTP error occurred: {http_err}"}  # Agar HTTP xatosi bo'lsa, xabar qaytarish
+    except ValueError:
+        return {'error': 'Invalid response: Expected JSON format but received something else.'}  # JSON bo'lmagan ma'lumot bo'lsa
+    except Exception as err:
+        return {'error': f"An error occurred: {err}"}  # Umumiy xatolar uchun
+   
+
     return vulnerabilities
 
 # Qora Ro'yxat Tekshiruvi Funksiyasi:
@@ -110,10 +125,28 @@ def check_blacklist(url):
         blacklist_info['error'] = str(e)
     return blacklist_info
 # Subdomenlarni olish funksiyasi
-def get_subdomains(url):
-    # Bu yerda subdomenlarni olish uchun dasturiy ta'minot kerak (masalan, subbrute yoki passivedns)
-    subdomains = ['sub1.example.com', 'sub2.example.com']  # Misol uchun, to'liq implementatsiya yo'q
-    return subdomains
+def get_subdomains(domain):
+    subdomains = set()
+
+    # Sublist3r yordamida subdomenlarni olish
+    sublist3r_subdomains = sublist3r.main(domain, 40, savefile=None, ports=None, silent=True, verbose=False, enable_bruteforce=False, engines=None)
+    subdomains.update(sublist3r_subdomains)
+
+    # Oddiy subdomenlarni tekshirish
+    common_subdomains = ['www', 'mail', 'ftp', 'dev', 'staging', 'test', 'blog']
+    for sub in common_subdomains:
+        try:
+            full_domain = f"{sub}.{domain}"
+            dns.resolver.resolve(full_domain, 'A')
+            subdomains.add(full_domain)
+        except dns.resolver.NXDOMAIN:
+            pass
+        except dns.resolver.NoAnswer:
+            pass
+        except dns.exception.Timeout:
+            pass
+
+    return list(subdomains)
 
 #Trafik va Xavfsizlik Xulosalari Funksiyasi:
 def get_security_insights(url):
