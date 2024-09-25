@@ -1,0 +1,15 @@
+/* Footer will be at the bottom */
+.footer {
+	background-color: #1a1a1a;
+	color: #fff;
+	padding: 20px;
+	text-align: center;
+	margin-top: auto; /* Pushes footer to the bottom */
+	width: 100%;
+}
+
+.footer p {
+	margin: 0;
+	font-size: 1rem;
+	color: #66ff99;
+}

@@ -1,0 +1,55 @@
+/* Navbar Styles */
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px 40px;
+	background-color: #1a1a1a; /* Dark background */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1000;
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+	font-family: 'Source Code Pro', monospace; /* Modern, tech-looking font */
+}
+
+.navbar a {
+	font-size: 2rem;
+	font-weight: bold;
+	color: #66ff99; /* Neon green color */
+}
+
+.nav-links {
+	display: flex;
+	gap: 30px;
+}
+
+.nav-links li {
+	list-style: none;
+	display: flex;
+	align-items: center;
+}
+
+.nav-links a {
+	text-decoration: none;
+	color: #ccc;
+	font-size: 1.1rem;
+	transition: color 0.3s;
+	font-family: 'Source Code Pro', monospace;
+}
+button {
+	font-family: 'Source Code Pro', monospace;
+}
+.btn-i-primary {
+	padding: 10px 20px;
+	border-radius: 8px;
+	background-color: #66ff99;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0;
+}
+.btn-i-primary a {
+	color: #333 !important;
+}

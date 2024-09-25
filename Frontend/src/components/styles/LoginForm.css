@@ -1,0 +1,88 @@
+.start-page {
+	width: 100%;
+	margin-top: 70px;
+	height: calc(100vh - 150px);
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	background-color: #1a1a1a; /* Dark theme background */
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(102, 255, 153, 0.5); /* Neon green glow */
+	width: 500px;
+}
+
+input {
+	padding: 10px;
+	max-width: 100% !important;
+	width: 100% !important;
+	background-color: #333; /* Dark input background */
+	border: 1px solid #66ff99; /* Neon green border */
+	border-radius: 4px;
+	color: #fff; /* White text */
+	font-family: 'Source Code Pro', monospace;
+}
+
+input::placeholder {
+	color: #66ff99; /* Neon green placeholder */
+}
+.text-separator {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	margin-block: 20px;
+	color: #fff;
+	gap: 10px;
+}
+.text-separator hr {
+	flex: 1 1 auto;
+	color: #1a1a1a !important;
+}
+
+button {
+	padding: 10px;
+	background-color: #66ff99; /* Neon green button */
+	color: #000; /* Black text */
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 16px;
+	transition: background-color 0.3s ease;
+	width: 100%;
+}
+
+button:hover {
+	background-color: #52e68a; /* Slightly darker neon green on hover */
+}
+
+form input:focus {
+	outline: none;
+	border-color: #52e68a; /* Slightly darker neon green on focus */
+}
+
+form {
+	margin-top: 50px;
+}
+
+button:active {
+	background-color: #40c978; /* Even darker on click */
+}
+
+.other-registers ul {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 15px;
+	list-style: none;
+	padding: 0;
+}
+.other-registers ul li {
+	font-size: 28px;
+}
